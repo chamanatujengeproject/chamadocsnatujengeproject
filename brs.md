@@ -22,6 +22,9 @@
 
 ---
 
+
+
+
 # 1. Introduction
 
 Chamas play a critical role in savings, investment, and financial empowerment, especially in community-based financial systems. However, many Chama operations today rely heavily on manual record-keeping, fragmented communication channels, and inefficient financial tracking methods.
@@ -149,7 +152,7 @@ The system shall:
 Support customizable contribution cycles:
 
 - Weekly
-- Fortnightly
+- Fortnightly 
 - Monthly
 - Custom periods
 
