@@ -17,15 +17,38 @@ Fines, meetings, notifications, and member exit logic are shared across all thre
 
 ## Roles
 
-**Member** — regular Chama participant. Makes contributions, applies for loans, votes. Lowest access level.
+**Member** — 
+regular Chama participant. 
+Makes contributions,
+ applies for loans, votes.                 
+ 
+ 
+ 
+ Lowest access level.
 
-**Guarantor** — member who vouches for another member's loan. Has a special liability role. Subset of Member.
+**Guarantor** —
+ member who vouches for another member's loan.
+ Has a special liability role. 
+ Subset of Member.
 
-**Treasurer** — manages all financial operations. Approves loans, tracks payments. Financial authority.
+**Treasurer** — 
+manages all financial operations.
+ Approves loans, 
+ tracks payments.
+  Financial authority.
 
-**Chairperson** — governs the Chama. Final approval on key decisions. Manages the constitution. Highest role.
+**Chairperson** — 
+governs the Chama. 
+Final approval on key decisions. 
+Manages the constitution. Highest role.
 
-**Secretary** — manages meetings, attendance records, and member communications. Administrative role.
+
+<!-- 
+**Secretary** — 
+manages meetings, 
+attendance records, 
+and member communications.
+ Administrative role. -->
 
 **Sys Admin** — platform-level access. Manages Chama onboarding and system health.
 
@@ -33,27 +56,75 @@ Fines, meetings, notifications, and member exit logic are shared across all thre
 
 ## Core System Entities
 
-**Member** — member_id, name, phone, email, national_id, joining_date, status, chama_id
+**Member** — member_id, name, phone, email,joining_date, status, chama_id
 
-**Chama** — chama_id, name, type, constitution_id, created_by, status, created_at
+**Chama** — chama_id, name, type,  created_by, status, created_at
+<!-- constitution_id, -->
 
 **Contribution** — contribution_id, member_id, chama_id, cycle_id, amount_expected, amount_paid, status, paid_at
 
 **Cycle** — cycle_id, chama_id, cycle_type, start_date, end_date, status
 
+
 **Transaction** — txn_id, chama_id, member_id, type, amount, channel, reference, created_at
+
 
 **Fine** — fine_id, member_id, chama_id, trigger_event, amount, status, waived_by, waiver_reason
 
-**Notification** — notif_id, member_id, chama_id, type, channel, message, sent_at, read_at
 
-**Meeting** — meeting_id, chama_id, agenda, date, location, type, minutes_url, created_by
+**Notification** —
+ notif_id, 
+ member_id,
+  chama_id, 
+  type,
+   channel,
+    message, 
+    sent_at,
+     read_at
 
-**Audit Log** — log_id, chama_id, actor_id, event_type, entity_id, before_state, after_state, timestamp
+
+
+**Meeting** — 
+meeting_id,
+ chama_id, 
+ agenda, 
+ date, 
+ location,
+  type,
+   created_by
+
+
+
+“Who changed what?”
+
+**Audit Log** — log_id, 
+chama_id,
+ actor_id,  -- user who made the change 
+  event_type,  what was the user doing 
+  entity_id,  what object was affected 
+   before_state,
+    after_state, 
+    timestamp
+
+
+
+
+## Payment
+
+* id
+* chama_id
+* member_id
+* transaction_id
+* provider  -- mpesa 
+* reference  -- conirmation of payment externally 
+* amount
+* status  -- payment can fail 
+
+* created_at
 
 ---
 
-## ROSCA-Specific Entities
+## ROSCA-Specific Entities --- Merry go round 
 
 **Payout Schedule** — schedule_id, chama_id, member_id, position, cycle_number, payout_date, status
 - status: `upcoming | released | skipped`

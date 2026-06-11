@@ -187,7 +187,7 @@
 
 ---
 
-# ROSCA / Payout Module
+# ROSCA
 
 ## PayoutQueue
 
@@ -201,7 +201,7 @@
 
 ---
 
-# Audit & Compliance Module
+# Audit 
 
 ## AuditLog
 
