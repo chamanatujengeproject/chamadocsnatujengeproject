@@ -8,7 +8,8 @@ FundLoop supports three types of Chamas:
 
 - **ROSCA / Merry-Go-Round** — most common
 - **Table Banking / Loan Chama** — most complex
-- **Hybrid Chama** — most realistic
+
+
 
 Fines, meetings, notifications, and member exit logic are shared across all three types.
 
@@ -214,22 +215,4 @@ Core business rules:
 7. Treasurer documents recovery outcome. Loan archived with default record.
 8. Defaulting member is flagged and cannot apply for new loans until the default is cleared.
 
-### Interest Calculation Models
 
-**Flat Rate** — `Interest = Principal × Rate × Duration`
-- Example: KES 50,000 × 5% × 3 months = KES 7,500 total interest. Equal instalments each month.
-
-**Reducing Balance** — `Interest = Outstanding Balance × Rate each period`
-- Interest reduces as principal is repaid. Cheaper for borrower. More complex to calculate.
-
-**Fixed Monthly** — fixed KES interest per month regardless of balance.
-- Example: KES 500/month for any loan in the pool. Simple; common in informal groups.
-
-### Governance Rules — Table Banking
-
-- Loan approval method (Treasurer vs vote): set in Chama constitution at creation; requires a vote to change.
-- Maximum loan multiplier change: requires member vote (simple majority) and Chairperson approval.
-- Interest rate change: requires member vote and takes effect from the next new loan only — not existing loans.
-- Guarantor threshold change: Chairperson approval; applies to new applications only.
-- Dividend distribution: Chairperson proposes, member vote approves, Treasurer executes.
-- Writing off a defaulted loan: Chairperson decision + audit log entry required.
