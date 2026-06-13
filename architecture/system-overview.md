@@ -21,7 +21,13 @@ gurator
 
 
 What problem are we solving?
- most Chama operations today depend on physical ledger books, WhatsApp messages, and manual spreadsheets. These approaches introduce errors, opaque record-keeping, delayed reporting, and eroded trust.
+ most Chama operations today depend on physical ledger books, WhatsApp messages, and manual spreadsheets. 
+ These approaches introduce errors, opaque record-keeping, delayed reporting, and eroded trust.
+
+
+
+
+
 
 What are the core workflows?
            1. System Entry Workflow (Identity → Access → Multi-Chama Context)
@@ -33,6 +39,16 @@ What are the core workflows?
                             Auth Module: User, Role, Session, Tokens
                             Member Module: MemberProfile, MemberRole, Membership
                             Chama Module: Chama access 
+
+                            ..
+                            ..
+                            ..
+                            ..
+                            ..
+                            ...
+                            ..
+                            ..
+
                             
 
 
@@ -82,7 +98,7 @@ What are the core workflows?
                                                                 Frequency
                                                                 Deadlines
                                                                 Penalties
-                                                                Partial payments
+                                                                Partial payments.
                                                                 Example
                                                                 Minimum contribution = 1,000 KES/month
                                                                 Late fee = 5% after 3 days
@@ -215,6 +231,12 @@ What are the core workflows?
                         Flow
 
                         Invite member → accept → join → participate → exit / suspend
+
+
+                        short falll period 
+                        what to do if a memebr leaves and  for example they were part of rosca module 
+                        Rosca module is a type fo chama    where contribution is   given person for the contribtuion cybele 
+
 
 
                 4.Money Inflow Workflow (Contributions Engine)
@@ -576,7 +598,7 @@ What are the core workflows?
 
 What kinds of chamas exist?
 
-                        . Rotating Savings Chama (ROSCA / Merry-Go-Round)
+                        1. Rotating Savings Chama (ROSCA / Merry-Go-Round)
                         Core idea
 
                         Everyone contributes fixed amounts, and one member takes the full pot in turns.
@@ -603,7 +625,7 @@ What kinds of chamas exist?
 
 
 
-
+<!-- 
                         Investment Chama
                         Core idea
 
@@ -616,10 +638,10 @@ What kinds of chamas exist?
                         Key property
 
                         Focus is wealth creation, not lending
+ -->
 
 
-
-
+<!-- 
                         Credit / Lending Chama
                         Core idea
 
@@ -633,7 +655,7 @@ What kinds of chamas exist?
                         Key property
 
                         Core engine is credit creation
-
+ -->
 
 
                         Welfare Chama
@@ -651,7 +673,7 @@ What kinds of chamas exist?
 
 
 
-
+<!-- 
                         Hybrid Chama
                         Core idea
 
@@ -664,9 +686,9 @@ What kinds of chamas exist?
 
                         Most modern digital chama systems (like your FundLoop idea) fall here
 
+ -->
 
-
-
+<!-- 
                         Investment + ROSCA Hybrid
                         Core idea
 
@@ -678,10 +700,10 @@ What kinds of chamas exist?
                         Remaining invested
                         Key property
 
-                        Balances liquidity + growth
+                        Balances liquidity + growth -->
 
 
-
+<!-- 
 
                         SACCO-like Chama (Formalized Chama)
                         Core idea
@@ -740,7 +762,7 @@ What kinds of chamas exist?
 
                         Everything else is just a combination.
 
-
+ -->
 
 
 What money flows exist?

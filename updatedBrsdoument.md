@@ -7,8 +7,8 @@ Business Requirements Document (BRD)
 
 Table of Contents
 1.  Introduction3
-2.  Problem Statement4
-3.  Proposed Solution5
+2.  Problem Statement
+3.  Proposed Solution
 4.  Chama Types Supported6
 5.  Business Objectives12
 6.  Stakeholders13
