@@ -1,9 +1,4 @@
-Here is the **FULL UPDATED FUNDLOOP DOMAIN MODEL**, cleaned up into:
-
-* Core Domains (write / business logic)
-* Supporting Domains (event-driven / read / infrastructure)
-
-This is how real production systems are structured.
+.
 
 ---
 
@@ -320,27 +315,4 @@ Event → connects everything
 
 ---
 
-# FINAL SIMPLE MENTAL MODEL
-
-Think of FundLoop like this:
-
-```text id="simple_model"
-CORE = “what happens to money and people”
-SUPPORT = “how we observe, secure, and communicate it”
-```
-
----
-
-# ONE-LINE MASTER DEFINITION
-
-> A domain is a group of related business rules and entities that solve one part of the system’s problem.
-
----
-
-If you want next step, I can:
-
-* draw full system architecture (microservices vs monolith)
-* or map each domain to Next.js backend folders
-* or design event flow (Kafka/RabbitMQ) for FundLoop
-
-Just tell me.
+# 
