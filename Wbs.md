@@ -1,8 +1,6 @@
 # FUNDLOOP — WORK BREAKDOWN STRUCTURE (WBS)
 
-> Stack: React (web) frontend, Node.js/Express + PostgreSQL backend — matching your Prime Awards Kenya stack.
->
-> Sequencing note: since the OpenAPI contract (§ previous doc) already exists, **Frontend can be built against mocked/stubbed responses from that contract while Backend is developed in parallel** — you don't strictly have to wait for a real backend to start UI work. The WBS below is ordered Frontend → Backend per your request, but the dependency column flags where they can overlap.
+> Stack.
 
 ---
 
