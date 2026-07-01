@@ -1,100 +1,103 @@
-
 # FUNDLOOP — WORK BREAKDOWN STRUCTURE (WBS)
 
-> Assumption: Flutter for the mobile frontend, Node.js/Express + PostgreSQL for the backend (matching your usual stack). Flag it if this project is actually on a different stack and I'll rework the WBS.
+> Stack: React (web) frontend, Node.js/Express + PostgreSQL backend — matching your Prime Awards Kenya stack.
 >
 > Sequencing note: since the OpenAPI contract (§ previous doc) already exists, **Frontend can be built against mocked/stubbed responses from that contract while Backend is developed in parallel** — you don't strictly have to wait for a real backend to start UI work. The WBS below is ordered Frontend → Backend per your request, but the dependency column flags where they can overlap.
 
 ---
 
-## 1.0 FRONTEND (Flutter Mobile App)
+## 1.0 FRONTEND (React Web App)
 
 ### 1.1 Project Setup & Architecture
 | WBS | Task | Deliverable | Depends On |
 |---|---|---|---|
-| 1.1.1 | Flutter project scaffold, folder structure, lint rules | Repo skeleton | — |
-| 1.1.2 | State management setup (Riverpod/Bloc — match InOut pattern) | Base architecture | 1.1.1 |
-| 1.1.3 | API client layer (Dio/http) generated/aligned to `fundloop-openapi.yaml` | HTTP client + typed models | OpenAPI spec |
-| 1.1.4 | Environment config (dev/staging/prod base URLs) | `.env` / flavor setup | 1.1.1 |
-| 1.1.5 | Design system: colors, typography, spacing, reusable widgets | Theme package | — |
-| 1.1.6 | Navigation/routing setup | Router config | 1.1.1 |
-| 1.1.7 | Local secure storage (auth token, refresh token) | Storage service | 1.1.1 |
+| 1.1.1 | React project scaffold (Next.js or Vite — confirm which), TypeScript config, ESLint/Prettier | Repo skeleton | — |
+| 1.1.2 | State management setup (React Query/TanStack Query for server state + Zustand/Context for UI state) | Base architecture | 1.1.1 |
+| 1.1.3 | API client layer (typed fetch/axios client generated/aligned to `fundloop-openapi.yaml`) | HTTP client + typed models | OpenAPI spec |
+| 1.1.4 | Environment config (dev/staging/prod base URLs, `.env` handling) | Env setup | 1.1.1 |
+| 1.1.5 | Design system: Tailwind config/tokens, typography, spacing, reusable component library | Theme + component kit | — |
+| 1.1.6 | Routing setup (Next.js App Router / React Router) incl. protected-route wrapper | Router config | 1.1.1 |
+| 1.1.7 | Auth token storage strategy (httpOnly cookie vs. secure storage) + CSRF considerations | Storage/session service | 1.1.1 |
+| 1.1.8 | Responsive layout shell (nav, sidebar, mobile breakpoints) | App shell | 1.1.5 |
 
 ### 1.2 Auth & Onboarding
 | WBS | Task | Endpoint(s) Used | Depends On |
 |---|---|---|---|
-| 1.2.1 | Signup screen (phone, name, password) | `POST /auth/signup` | 1.1.3 |
-| 1.2.2 | OTP verification screen | `POST /auth/verify-phone`, `POST /auth/otp/resend` | 1.2.1 |
-| 1.2.3 | Login screen | `POST /auth/login` | 1.1.3 |
+| 1.2.1 | Signup page (phone, name, password) | `POST /auth/signup` | 1.1.3 |
+| 1.2.2 | OTP verification page | `POST /auth/verify-phone`, `POST /auth/otp/resend` | 1.2.1 |
+| 1.2.3 | Login page | `POST /auth/login` | 1.1.3 |
 | 1.2.4 | Forgot / reset password flow | `POST /auth/forgot-password`, `POST /auth/reset-password` | 1.1.3 |
-| 1.2.5 | Silent token refresh + auto-logout on expiry | `POST /auth/token/refresh` | 1.2.3 |
-| 1.2.6 | Account settings — change password, logout | `POST /auth/change-password`, `POST /auth/logout` | 1.2.3 |
-| 1.2.7 | "Current user" state provider (roles per chama) | `GET /auth/me` | 1.2.3 |
+| 1.2.5 | Silent token refresh (interceptor) + auto-redirect to login on expiry | `POST /auth/token/refresh` | 1.2.3 |
+| 1.2.6 | Account settings page — change password, logout | `POST /auth/change-password`, `POST /auth/logout` | 1.2.3 |
+| 1.2.7 | "Current user" context/provider (roles per chama) | `GET /auth/me` | 1.2.3 |
 
 ### 1.3 Membership & Chama Management
 | WBS | Task | Endpoint(s) Used | Depends On |
 |---|---|---|---|
 | 1.3.1 | Create-chama flow (name, contribution amount, rotation method) | `POST /chamas` | 1.2.7 |
-| 1.3.2 | Join-via-invitation flow | `POST /chamas/{id}/members`, invitation deep link | 1.2.7 |
-| 1.3.3 | Invite-member screen (Chairman/Admin only) | `POST /chamas/{id}/invitations` | 1.3.1, role-gating (1.3.6) |
-| 1.3.4 | Member list screen with status/role filters | `GET /chamas/{id}/members` | 1.2.7 |
+| 1.3.2 | Join-via-invitation flow (invite link → landing page → join) | `POST /chamas/{id}/members`, invitation link handling | 1.2.7 |
+| 1.3.3 | Invite-member page (Chairman/Admin only) | `POST /chamas/{id}/invitations` | 1.3.1, role-gating (1.3.6) |
+| 1.3.4 | Member list/table with status/role filters, search, pagination | `GET /chamas/{id}/members` | 1.2.7 |
 | 1.3.5 | Suspend-member action (Chairman/Admin only) | `PATCH /.../suspend` | 1.3.4 |
-| 1.3.6 | Role-based UI gating utility (hide/disable actions per §1.4 role matrix) | shared widget/guard | 1.2.7 |
-| 1.3.7 | Chama switcher (multi-chama membership support) | `GET /auth/me` | 1.2.7 |
+| 1.3.6 | Role-based UI gating (hook/HOC to hide/disable actions per §1.4 role matrix) | shared utility | 1.2.7 |
+| 1.3.7 | Chama switcher (multi-chama membership support in nav) | `GET /auth/me` | 1.2.7 |
 
 ### 1.4 ROSCA Module
 | WBS | Task | Endpoint(s) Used | Depends On |
 |---|---|---|---|
-| 1.4.1 | Start-cycle screen (Treasurer only) | `POST /chamas/{id}/cycles` | 1.3.6 |
-| 1.4.2 | Cycle dashboard — status, deadline, rotation order | `GET` cycle detail | 1.4.1 |
-| 1.4.3 | Contribution payment screen + provider routing (Stripe/PayPal/M-Pesa) | `POST /.../contributions` | 1.1.3 |
-| 1.4.4 | Payout release screen (Treasurer) + payout notification banner | `POST /.../payout` | 1.4.2 |
-| 1.4.5 | Missed-contribution / penalty view | `GET /.../missed` | 1.4.2 |
+| 1.4.1 | Start-cycle page (Treasurer only) | `POST /chamas/{id}/cycles` | 1.3.6 |
+| 1.4.2 | Cycle dashboard — status, deadline, rotation order, progress bar | `GET` cycle detail | 1.4.1 |
+| 1.4.3 | Contribution payment page + provider routing (Stripe/PayPal/M-Pesa checkout) | `POST /.../contributions` | 1.1.3 |
+| 1.4.4 | Payout release page (Treasurer) + payout notification banner | `POST /.../payout` | 1.4.2 |
+| 1.4.5 | Missed-contribution / penalty table | `GET /.../missed` | 1.4.2 |
 | 1.4.6 | Position-swap request + voting UI | `POST /.../position-swap` | 1.4.2 |
 
 ### 1.5 Welfare Module
 | WBS | Task | Endpoint(s) Used | Depends On |
 |---|---|---|---|
-| 1.5.1 | Submit-claim screen (type, amount, evidence upload) | `POST /.../welfare/claims` | 1.1.3, media upload service |
-| 1.5.2 | Claim detail + disbursement status screen | `GET /.../claims/{id}` | 1.5.1 |
+| 1.5.1 | Submit-claim page (type, amount, evidence file upload) | `POST /.../welfare/claims` | 1.1.3, file upload service |
+| 1.5.2 | Claim detail + disbursement status page | `GET /.../claims/{id}` | 1.5.1 |
 | 1.5.3 | Voting UI (approve/reject) with live tally | `POST /.../claims/{id}/votes` | 1.5.2 |
 | 1.5.4 | Chairman veto action | `POST /.../claims/{id}/veto` | 1.3.6 |
 
 ### 1.6 Governance Module
 | WBS | Task | Endpoint(s) Used | Depends On |
 |---|---|---|---|
-| 1.6.1 | Propose rule-change screen (Chairman only) | `POST /.../rules/proposals` | 1.3.6 |
-| 1.6.2 | Proposal voting screen with tally | `POST /.../proposals/{id}/votes` | 1.6.1 |
+| 1.6.1 | Propose rule-change page (Chairman only) | `POST /.../rules/proposals` | 1.3.6 |
+| 1.6.2 | Proposal voting page with tally | `POST /.../proposals/{id}/votes` | 1.6.1 |
 
 ### 1.7 Finance / Wallet Module
 | WBS | Task | Endpoint(s) Used | Depends On |
 |---|---|---|---|
-| 1.7.1 | Wallet balance + top-up screen | `POST /wallets/me/deposits` | 1.1.3 |
-| 1.7.2 | Transaction history / ledger view | `GET /.../ledger` | 1.7.1 |
+| 1.7.1 | Wallet balance + top-up page | `POST /wallets/me/deposits` | 1.1.3 |
+| 1.7.2 | Transaction history / ledger table with filters, export | `GET /.../ledger` | 1.7.1 |
 | 1.7.3 | Reversal action (Treasurer/Admin) | `POST /.../transactions/{id}/reversal` | 1.3.6 |
-| 1.7.4 | Payment provider SDK integration (Stripe/PayPal/M-Pesa STK push) | native SDKs | 1.7.1 |
+| 1.7.4 | Payment provider SDK/checkout integration (Stripe.js, PayPal SDK, M-Pesa STK push) | provider SDKs | 1.7.1 |
 
 ### 1.8 Notifications
 | WBS | Task | Depends On |
 |---|---|---|
-| 1.8.1 | Push notification setup (FCM) | 1.1.1 |
-| 1.8.2 | In-app notification center (event feed: contributions, payouts, claims, votes) | 1.8.1 |
-| 1.8.3 | SMS-fallback awareness (read-only status, since SMS is server-sent) | — |
+| 1.8.1 | Web push notification setup (optional — service worker + FCM/OneSignal) | 1.1.1 |
+| 1.8.2 | In-app notification center (event feed: contributions, payouts, claims, votes) | 1.1.3 |
+| 1.8.3 | Real-time updates via polling or WebSocket/SSE for live tallies and dashboards | 1.1.3 |
+| 1.8.4 | SMS-fallback awareness (read-only status, since SMS is server-sent) | — |
 
 ### 1.9 Frontend Testing & QA
 | WBS | Task | Depends On |
 |---|---|---|
-| 1.9.1 | Widget tests for critical flows (contribution, claim, voting) | modules 1.4–1.7 |
-| 1.9.2 | Integration tests against mocked API contract | 1.1.3 |
+| 1.9.1 | Component tests (Vitest/Jest + React Testing Library) for critical flows | modules 1.4–1.7 |
+| 1.9.2 | Integration/E2E tests (Playwright/Cypress) against mocked API contract | 1.1.3 |
 | 1.9.3 | Manual QA pass — role-permission edge cases (per §1.4 matrix) | all modules |
-| 1.9.4 | Accessibility & responsive layout pass | all modules |
+| 1.9.4 | Cross-browser + responsive layout pass (desktop/tablet/mobile web) | all modules |
+| 1.9.5 | Accessibility audit (WCAG — forms, tables, focus states) | all modules |
 
 ### 1.10 Frontend Release
 | WBS | Task | Depends On |
 |---|---|---|
-| 1.10.1 | App store / Play store metadata, screenshots | all above |
-| 1.10.2 | Staged rollout build (staging API) | Backend staging environment (§2.11) |
-| 1.10.3 | Production release | Backend production environment |
+| 1.10.1 | Hosting setup (Vercel/Netlify or equivalent) + custom domain | 1.1.1 |
+| 1.10.2 | Staging deploy pointed at staging API | Backend staging environment (§2.11) |
+| 1.10.3 | SEO/meta basics, analytics wiring (if public-facing marketing pages exist) | 1.10.1 |
+| 1.10.4 | Production release | Backend production environment |
 
 ---
 
@@ -213,7 +216,7 @@
 | M2 — Auth service live (staging) | 2.3.x complete | Frontend 1.2.x can integrate against real auth |
 | M3 — Finance primitives live (staging) | 2.6.1–2.6.3 complete | ROSCA/Welfare backend work (2.5, 2.7) can integrate real money movement |
 | M4 — Core domains feature-complete (staging) | 2.4–2.8 complete | Full frontend integration testing (1.9.2) |
-| M5 — End-to-end staging pass | Frontend + Backend integrated on staging | Production release (1.10.3, 2.11.5) |
+| M5 — End-to-end staging pass | Frontend + Backend integrated on staging | Production release (1.10.4, 2.11.5) |
 
 ---
 
